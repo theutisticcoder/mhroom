@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+	<head>
+		<script type="module">
+		
+		</script>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<title>Escape Room AR</title>
+
+		<script
+			type="module"
+			src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"
+		></script>
+		<script
+			nomodule
+			src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"
+		></script>
+		<link href="style.css?v=1" rel="stylesheet" type="text/css" />
+	</head>
+
+	<body>
+		<div id="world">
+			<div id="mainDiv">
+				<div id="top"></div>
+				<div id="topleft"></div>
+				<div id="topright"></div>
+				<div id="topfront"></div>
+				<div id="topback"></div>
+				<div id="bottomleft"></div>
+				<div id="bottomright"></div>
+				<div id="bottomfront"></div>
+				<div id="bottomback"></div>
+				<div id="bottom"></div>
+			</div>
+		</div>
+		<input
+			placeholder="Enter the passcode"
+			style="font-size: 30pt; z-index: 200; position: absolute"
+		/>
+		<button id="escape">Escape!</button>
+		<script type="module">
+			import { io } from "https://cdn.socket.io/4.7.5/socket.io.esm.min.js";
+			const socket = io();
+			var escaper = false;
+			 document.querySelector("#escape").onclick = () =>{
+				if(escaper){
+					alert("You won!");
+				}
+				 else{
+					 alert("WRONG CODE!");
+				 }
+			}
+			var code = "";
+			var host = confirm("Are you a host? If not, click cancel to join a room.");
+			if(host == true){
+				var room = prompt("Choose a room name.");
+				socket.emit("newroom", room);
+				socket.on("done", ()=> {
+					alert("Type in the code. Everyone finished!");
+					escaper = true;
+				});
+			}
+			else{
+				var username = prompt("Choose an username")
+				var room = prompt("Enter the room name.");
+				socket.emit("roomname", room);
+				socket.on("number", (number)=> {
+					socket.emit("host", number);
+					var q1 = prompt("What is a coping strategy you use in general?");
+					while(q1.length === 0) q1 = prompt("What is a coping strategy you use in general?");
+					 var q2 = prompt("How are you doing today? Please use a high school word.").toLowerCase();
+					var nowords = ["ok", "good", "bad", "meh", "eh", "idk"]
+					 while(q2.length < 3 && !nowords.includes(q2))q2 = prompt("How are you doing today? Please use a high school word.").toLowerCase();
+					 var q3 = prompt("What is a coping strategy you use when mad?");
+					 while(q3.length === 0) q1 = prompt("What is a coping strategy you use when mad?");
+					var q4 = prompt("What is a coping strategy you use when sad?");
+					 while(q4.length === 0) q1 = prompt("What is a coping strategy you use when sad?");
+					socket.emit("finish", {num: number, u: username});
+					alert("Find the classmate who has your number.");
+				})
+			}
+			socket.on("other", data=> {
+				alert("The person whose username is "+ data.u + " has the number " + data.num);
+			})
+		</script>
+	</body>
+</html>
