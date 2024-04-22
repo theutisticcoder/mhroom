@@ -6,7 +6,7 @@
 		</script>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width" />
-		<title>Escape Room AR</title>
+		<title>Escape Room MH</title>
 
 		<script
 			type="module"
@@ -34,7 +34,7 @@
 				<div id="bottom"></div>
 			</div>
 		</div>
-		<input
+		<input hidden
 			placeholder="Enter the passcode"
 			style="font-size: 30pt; z-index: 200; position: absolute"
 		/>
@@ -55,7 +55,18 @@
 			var host = confirm("Are you a host? If not, click cancel to join a room.");
 			if(host == true){
 				var room = prompt("Choose a room name.");
+				document.querySelector("input").hidden = false;
 				socket.emit("newroom", room);
+				socket.on("player", num=> {
+					setTimeout(()=> {
+						var check = confirm("Player number " + num + " has joined. Start?");
+						if(check == true){
+							socket.emit("g");
+						}
+					}, 3000)
+				
+					
+				})
 				socket.on("done", ()=> {
 					alert("Type in the code. Everyone finished!");
 					escaper = true;
@@ -67,18 +78,22 @@
 				socket.emit("roomname", room);
 				socket.on("number", (number)=> {
 					socket.emit("host", number);
-					var q1 = prompt("What is a coping strategy you use in general?");
-					while(q1.length === 0) q1 = prompt("What is a coping strategy you use in general?");
-					 var q2 = prompt("How are you doing today? Please use a high school word.").toLowerCase();
-					var nowords = ["ok", "good", "bad", "meh", "eh", "idk"]
-					 while(q2.length < 3 && !nowords.includes(q2))q2 = prompt("How are you doing today? Please use a high school word.").toLowerCase();
-					 var q3 = prompt("What is a coping strategy you use when mad?");
-					 while(q3.length === 0) q1 = prompt("What is a coping strategy you use when mad?");
-					var q4 = prompt("What is a coping strategy you use when sad?");
-					 while(q4.length === 0) q1 = prompt("What is a coping strategy you use when sad?");
-					socket.emit("finish", {num: number, u: username});
-					alert("Find the classmate who has your number.");
+					socket.on("game", ()=> {
+				alert("the game has started");
+						var q1 = prompt("What is a coping strategy you use in general?");
+						while(q1.length === 0) q1 = prompt("What is a coping strategy you use in general?");
+						 var q2 = prompt("How are you doing today? Please use a high school word.").toLowerCase();
+						var nowords = ["ok", "good", "bad", "meh", "eh", "idk"]
+						 while(q2.length < 3 && !nowords.includes(q2))q2 = prompt("How are you doing today? Please use a high school word.").toLowerCase();
+						 var q3 = prompt("What is a coping strategy you use when mad?");
+						 while(q3.length === 0) q1 = prompt("What is a coping strategy you use when mad?");
+						var q4 = prompt("What is a coping strategy you use when sad?");
+						 while(q4.length === 0) q1 = prompt("What is a coping strategy you use when sad?");
+						socket.emit("finish", {num: number, u: username});
+						alert("Find the classmate who has your number.");
+					})
 				})
+				
 			}
 			socket.on("other", data=> {
 				alert("The person whose username is "+ data.u + " has the number " + data.num);

@@ -13,8 +13,12 @@ io.on("connection", socket=> {
 			hosts.push(socket);
 			socket.join(r);
 			socket.emit("start");
+			
 		}
 	});
+	socket.on("g", ()=> {
+		socket.broadcast.emit("game");
+	})
 	socket.on("roomname", r=> {
 		var check = false;
 		rooms.forEach(room=> {
@@ -28,6 +32,11 @@ io.on("connection", socket=> {
 			socket.emit("number", Math.floor(Math.random()* 10));
 			rooms.find((roo) => roo.room === Array.from(socket.rooms)[1]).people++;
 			console.log(rooms.find((roo) => roo.room === Array.from(socket.rooms)[1]).people)
+			hosts.forEach(h=> {
+				if(Array.from(h.rooms)[1] === Array.from(socket.rooms)[1]){
+					h.emit("player", rooms.find((roo) => roo.room === Array.from(socket.rooms)[1]).people);
+				}
+			})
 		}
 	})
 	socket.on("host", (num)=> {
