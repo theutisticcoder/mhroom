@@ -96,10 +96,10 @@
 			})
 		}
 		socket.on("other", data => {
-			setTimeout(() => {
+				while(document.hidden){
+					if(!document.hidden) break;
+				}
 				alert("The person whose username is " + data.u + " has the number " + data.num);
-
-			}, 3000)
 		})
 	</script>
 </body>
