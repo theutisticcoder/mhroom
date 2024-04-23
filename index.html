@@ -84,7 +84,6 @@
 				})
 				socket.on("game", ()=> { setTimeout(()=> {
 
-				},3000)
 				alert("The game has started. Answer the questions to get a digit from a random person in the room. When everyone gets their digit, the host can type in a code from those digits and you can escape. No data will be shared with the server, so no one can know but you. If we finish in two class periods, the next Mood ring will have the last 10 minuts as tech.");
 						var q1 = prompt("What is a coping strategy you use in general?");
 						while(q1.length === 0) q1 = prompt("What is a coping strategy you use in general?");
@@ -97,6 +96,7 @@
 						 while(q4.length === 0) q1 = prompt("What is a coping strategy you use when sad?");
 						socket.emit("finish", {num: digit, u: username});
 						alert("Find the classmate who has your number.");
+					},3000)
 					})
 			}
 			socket.on("other", data=> {
