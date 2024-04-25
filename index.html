@@ -85,7 +85,7 @@
 					while (q1.length < 4) q1 = prompt("What is a coping strategy you use in general?");
 					var q2 = prompt("How are you doing today? Please use a high school word.").toLowerCase();
 					var nowords = ["ok", "good", "bad", "meh", "eh", "idk", "idc", "dust"]
-					while (q2.length < 4 && nowords.includes(q2)) q2 = prompt("How are you doing today? Please use a high school word.").toLowerCase();
+					while (q2.length < 4 || nowords.includes(q2)) q2 = prompt("How are you doing today? Please use a high school word.").toLowerCase();
 					var q3 = prompt("What is a coping strategy you use when mad?");
 					while (q3.length <4) q3 = prompt("What is a coping strategy you use when mad?");
 					var q4 = prompt("What is a coping strategy you use when sad?");
