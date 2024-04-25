@@ -82,14 +82,14 @@
 
 					alert("The game has started. Answer the questions to get a digit from a random person in the room. When everyone gets their digit, the host can type in a code from those digits and you can escape. No data will be shared with the server, so no one can know but you. If we finish in two class periods, the next Mood ring will have the last 10 minutes as tech.");
 					var q1 = prompt("What is a coping strategy you use in general?");
-					while (q1.length === 0) q1 = prompt("What is a coping strategy you use in general?");
+					while (q1.length < 4) q1 = prompt("What is a coping strategy you use in general?");
 					var q2 = prompt("How are you doing today? Please use a high school word.").toLowerCase();
-					var nowords = ["ok", "good", "bad", "meh", "eh", "idk"]
-					while (q2.length < 3 && !nowords.includes(q2)) q2 = prompt("How are you doing today? Please use a high school word.").toLowerCase();
+					var nowords = ["ok", "good", "bad", "meh", "eh", "idk", "idc", "dust"]
+					while (q2.length < 4 && nowords.includes(q2)) q2 = prompt("How are you doing today? Please use a high school word.").toLowerCase();
 					var q3 = prompt("What is a coping strategy you use when mad?");
-					while (q3.length === 0) q1 = prompt("What is a coping strategy you use when mad?");
+					while (q3.length <4) q3 = prompt("What is a coping strategy you use when mad?");
 					var q4 = prompt("What is a coping strategy you use when sad?");
-					while (q4.length === 0) q1 = prompt("What is a coping strategy you use when sad?");
+					while (q4.length <4) q4 = prompt("What is a coping strategy you use when sad?");
 					socket.emit("finish", { num: digit, u: username });
 					alert("Find the classmate who has your number.");
 				}, 3000)
