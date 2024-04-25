@@ -60,7 +60,7 @@ const Queue = Swal.mixin({
 			else host = true;
 		});
 		if (host == true) {
-			const {value: room} = Swal.fire({text: "Choose a room name.", input: text});
+			const {value: room} = Swal.fire({text: "Choose a room name.",input: "text"});
 			document.querySelector("input").hidden = false;
 			socket.emit("newroom", room);
 			socket.on("player", num => {
@@ -86,8 +86,8 @@ const Queue = Swal.mixin({
 			});
 		}
 		else {
-			const {value: username} = Swal.fire({text: "Choose an username.", input: text});
-			const {value: room} = Swal.fire({text: "Enter a room name.", input: text});
+			const {value: username} = Swal.fire({text: "Choose an username.",input: "text"});
+			const {value: room} = Swal.fire({text: "Enter a room name.",input: "text"});
 			socket.emit("roomname", room);
 			socket.on("number", (number) => {
 				digit = number
@@ -97,15 +97,15 @@ const Queue = Swal.mixin({
 			socket.on("game", () => {
 				setTimeout(async() => {
 					Swal.fire({ currentProgressStep: 0, text: "The game has started. Answer the questions to get a digit from a random person in the room. When everyone gets their digit, the host can type in a code from those digits and you can escape. No data will be shared with the server, so no one can know but you. If we finish in two class periods, the next Mood ring will have the last 10 minutes as tech."});
-					var {value: q1} = await Queue.fire({currentProgressStep: 0,text: "What is a coping strategy you use in general?", input: text});
-					while (q1.length < 4) var {value: q1} = await Queue.fire({currentProgressStep: 0,text: "What is a coping strategy you use in general?", input: text});
-					var {value: q2} = await Queue.fire({currentProgressStep: 1,text: "How are you doing today? Please use a high school word.", input: text});
+					var {value: q1} = await Queue.fire({currentProgressStep: 0,text: "What is a coping strategy you use in general?",input: "text"});
+					while (q1.length < 4) var {value: q1} = await Queue.fire({currentProgressStep: 0,text: "What is a coping strategy you use in general?",input: "text"});
+					var {value: q2} = await Queue.fire({currentProgressStep: 1,text: "How are you doing today? Please use a high school word.",input: "text"});
 					var nowords = ["ok", "good", "bad", "meh", "eh", "idk", "idc", "dust"]
-					while (q2.length < 4 || nowords.includes(q2)) var {value: q2} = await Queue.fire({currentProgressStep: 1,text: "How are you doing today? Please use a high school word.", input: text});
-					var {value: q3} = await Queue.fire({currentProgressStep: 2,text: "What is a coping strategy you use when mad?", input: text});
-					while (q3.length <4)var {value: q3} = await Queue.fire({currentProgressStep: 2,text: "What is a coping strategy you use when mad?", input: text});
-					var {value: q4} = await Queue.fire({currentProgressStep: 3,text: "What is a coping strategy you use when sad?", input: text});
-					while (q4.length <4) var {value: q4} = await Queue.fire({currentProgressStep: 3,text: "What is a coping strategy you use when sad?", input: text});
+					while (q2.length < 4 || nowords.includes(q2)) var {value: q2} = await Queue.fire({currentProgressStep: 1,text: "How are you doing today? Please use a high school word.",input: "text"});
+					var {value: q3} = await Queue.fire({currentProgressStep: 2,text: "What is a coping strategy you use when mad?",input: "text"});
+					while (q3.length <4)var {value: q3} = await Queue.fire({currentProgressStep: 2,text: "What is a coping strategy you use when mad?",input: "text"});
+					var {value: q4} = await Queue.fire({currentProgressStep: 3,text: "What is a coping strategy you use when sad?",input: "text"});
+					while (q4.length <4) var {value: q4} = await Queue.fire({currentProgressStep: 3,text: "What is a coping strategy you use when sad?",input: "text"});
 					socket.emit("finish", { num: digit, u: username });
 					Swal.fire({text: "Find the classmate who has your number."});
 
