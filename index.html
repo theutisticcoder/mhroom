@@ -54,9 +54,10 @@ const Queue = Swal.mixin({
 		}
 		var code = "";
 		var digit;
-		var host = Swal.fire({text: "Are you a host? If not, click cancel to join a room.", showCancelButton: true}).then((result)=> {
-			if(result.isDenied) return false;
-			else return true;
+		var host;
+		Swal.fire({text: "Are you a host? If not, click cancel to join a room.", showCancelButton: true}).then((result)=> {
+			if(result.isDenied) host = false;
+			else host = true;
 		});
 		if (host == true) {
 			const {value: room} = Swal.fire({text: "Choose a room name.", input: text});
@@ -64,9 +65,10 @@ const Queue = Swal.mixin({
 			socket.emit("newroom", room);
 			socket.on("player", num => {
 				setTimeout(() => {
-					var start = Swal.fire({text: "Are you a host? If not, click cancel to join a room.", showCancelButton: true}).then((result)=> {
-			if(result.isDenied) return false;
-			else return true;
+					var start;
+					Swal.fire({text: "Are you a host? If not, click cancel to join a room.", showCancelButton: true}).then((result)=> {
+			if(result.isDenied) start = false;
+			else start = true;
 		});					if (start == true) {
 						socket.emit("g");
 					}
